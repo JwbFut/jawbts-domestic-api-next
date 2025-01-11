@@ -39,22 +39,22 @@ export async function GET(request: Request) {
         headers.set('Upgrade-Insecure-Requests', '1');
         headers.set('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0');
 
-        let range = headers.get('Range')?.replace("bytes=", "");
-        if (range) {
-            let rs = range.split("-");
-            // console.log(rs)
-            let end = Number.parseInt(rs[0]) + 300000;
-            if (rs.length == 2 && rs[1] != '') {
-                end = Number.parseInt(rs[1]);
-            }
-            if (rs[0] == "0") {
-                end = 2145;
-            } else {
-                end = Math.min(end, Number.parseInt(rs[0]) + 300000)
-            }
-            headers.set('Range', `bytes=${rs[0]}-${end}`);
-            // console.log(headers.get('Range'));
-        }
+        // let range = headers.get('Range')?.replace("bytes=", "");
+        // if (range) {
+        //     let rs = range.split("-");
+        //     // console.log(rs)
+        //     let end = Number.parseInt(rs[0]) + 300000;
+        //     if (rs.length == 2 && rs[1] != '') {
+        //         end = Number.parseInt(rs[1]);
+        //     }
+        //     if (rs[0] == "0") {
+        //         end = 2145;
+        //     } else {
+        //         end = Math.min(end, Number.parseInt(rs[0]) + 300000)
+        //     }
+        //     headers.set('Range', `bytes=${rs[0]}-${end}`);
+        //     // console.log(headers.get('Range'));
+        // }
 
         let debug_url = "";
         let audio_url;
