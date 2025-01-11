@@ -113,7 +113,13 @@ export async function GET(request: Request) {
             return ResponseUtils.serverError((e as Error).message);
         }
 
-        return response_music;
+        let rebuilt_reponse = new Response(response_music.body);
+        response_music.headers.forEach((value, key) => {
+            rebuilt_reponse.headers.set(key, value);
+        });
+        rebuilt_reponse.headers.delete("access-control-allow-origin");
+
+        return rebuilt_reponse;
     } else {
         return ResponseUtils.bad("id");
     }
