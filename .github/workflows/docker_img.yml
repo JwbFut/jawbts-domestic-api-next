@@ -2,23 +2,20 @@ name: Docker Image CI
 on:
   push:
     branches:
-        - domestic
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Set Time Env
         run: echo "NOW=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
-
       - name: Build the Docker Image
         run: |
           docker version
           cd ${{ github.workspace }}
           ls
           docker build -t ${{ secrets.DOCKER_URL }}/jawbts/jawbts-api-domestic:${{ env.NOW }} .
-
       - name: Push the Docker Image
         uses: gacts/run-and-post-run@v1
         with:
