@@ -6,6 +6,20 @@ import next from "next";
 
 export const dynamic = 'force-dynamic';
 
+function getMaxBrandWidthUrl(data: any) {
+    if (!data['data']['dash']['audio']) throw new Error("No audio data found");
+    if (!data['data']['dash']['audio'].length) throw new Error("No audio data found");
+    let max_width = 0;
+    let max_url = "";
+    for (let i = 0; i < data['data']['dash']['audio'].length; i++) {
+        if (data['data']['dash']['audio'][i]['bandwidth'] > max_width) {
+            max_width = data['data']['dash']['audio'][i]['bandwidth'];
+            max_url = data['data']['dash']['audio'][i]['baseUrl'];
+        }
+    }
+    return max_url;
+}
+
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get("token")
@@ -35,7 +49,7 @@ export async function GET(request: Request) {
         headers.set('Sec-Fetch-Dest', 'empty');
         headers.set('Sec-Fetch-Mode', 'cors');
         headers.set('Sec-Fetch-Site', 'cross-site');
-        // headers.set('Sec-Fetch-User', '?1');
+        headers.set('Sec-Fetch-User', '?1');
         headers.set('Upgrade-Insecure-Requests', '1');
         headers.set('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0');
 
@@ -80,12 +94,12 @@ export async function GET(request: Request) {
                 const response_play_info = await fetch("https://api.bilibili.com/x/player/playurl?" + await BiliBiliUtils.encWbi(params), { next: { revalidate: 300 }, headers: header_with_ua });
                 const response_play_info_json = await response_play_info.json();
 
-                audio_url = response_play_info_json['data']['dash']['audio'][0]['baseUrl'];
+                audio_url = getMaxBrandWidthUrl(response_play_info_json);
             } else {
                 // 有playinfo的情况
 
                 const res_js = JSON.parse(res[1]);
-                audio_url = res_js['data']['dash']['audio'][0]['baseUrl'];
+                audio_url = getMaxBrandWidthUrl(res_js);
             }
         } catch (e) {
             ErrorUtils.log(e as Error);
@@ -118,6 +132,7 @@ export async function GET(request: Request) {
             rebuilt_reponse.headers.set(key, value);
         });
         rebuilt_reponse.headers.delete("access-control-allow-origin");
+        rebuilt_reponse.headers.set("Content-Type", "application/octet-stream");
 
         return rebuilt_reponse;
     } else {
