@@ -12,6 +12,10 @@ const nextConfig = {
                     {
                         key: 'Access-Control-Allow-Headers',
                         value: '*',
+                    },
+                    {
+                        key: 'Access-Control-Expose-Headers',
+                        value: 'Content-Length, Content-Range',
                     }
                 ],
             }
