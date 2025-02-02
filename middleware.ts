@@ -6,7 +6,10 @@ const allowedPathNames = ["/music/get", "/music/get/info", "/net/proxy", "/favic
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     // console.log(pathname + " is being requested")
-    if (!allowedPathNames.some(allowedPath => new RegExp(`^${allowedPath}(/|\\?)?(\\?[^/]+)?$`).test(pathname))) {
+
+    // 把pathname ? 后面的全砍掉
+    const cleanPathname = pathname.split("?")[0];
+    if (!allowedPathNames.some(allowedPath => new RegExp(`^${allowedPath}(/|\\?)?(\\?[^/]+)?$`).test(cleanPathname))) {
         return ResponseUtils.wrong("pathname. Nothing here.");
     }
     return NextResponse.next();
