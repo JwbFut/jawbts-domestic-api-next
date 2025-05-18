@@ -13,7 +13,7 @@
     "@vercel/postgres-kysely": "^0.10.0",
     "jose": "^5.9.6",
     "kysely": "^0.27.5",
-    "next": ">=15.2.3",
+    "next": ">=15.2.4",
     "node-schedule": "^2.1.1",
     "react": "^19",
     "react-dom": "^19"
