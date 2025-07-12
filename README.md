@@ -10,6 +10,13 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## 感谢
+[jose](https://www.npmjs.com/package/jose) 提供jwt加密解密库  
+[react](https://reactjs.org/) [nextjs](https://nextjs.org/) 提供的框架  
+[node](https://nodejs.org/zh-cn/) 提供运行环境  
+[docker](https://www.docker.com/) 提供容器技术  
+[alpine-linux](https://alpinelinux.org/) 提供基础镜像  
+
 ## Getting Started
 
 First, run the development server:
